@@ -1,7 +1,7 @@
 # skrall.js
 
 <img src="https://img.shields.io/github/size/KyzaGitHub/skrall.js/skrall.js?label=Full%20Size&style=flat-square">
-<img src="https://img.shields.io/github/size/KyzaGitHub/skrall.min.js/skrall.js?label=Minified&style=flat-square">
+<img src="https://img.shields.io/github/size/KyzaGitHub/skrall.js/skrall.min.js?label=Minified&style=flat-square">
 
 ## Usage
 
