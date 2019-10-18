@@ -19,6 +19,14 @@
 
 ## Usage
 
+Host skrall.js locally.
+
+```
+<script type="text/javascript" src="./js/skrall.min.js"></script>
+```
+
+Or pull it directly from my repo.
+
 ```
 <script type="text/javascript" src="https://skrall.kyza.net/skrall.min.js"></script>
 ```
