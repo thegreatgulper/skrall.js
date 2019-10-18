@@ -2,9 +2,18 @@ function skrall(
   scroller,
   options = {
     direction: "vertical",
-    snap: true
+    snap: true,
+    environment: "production"
   }
 ) {
+  this.version = "1.0.0";
+
+  this.log = (text) => {
+    if (this.options.environment == "development") {
+      console.log("[skrall.js v" + this.version + "]: " + text);
+    }
+  };
+
   this.options = options;
 
   if (!this.options.direction) {
@@ -13,12 +22,15 @@ function skrall(
   if (!this.options.snap) {
     this.options.snap = true;
   }
-
-
+  if (!this.options.environment) {
+    this.options.environment = "production";
+  }
 
   this.scroller = scroller;
-  this.scroller.onmousewheel = (e) => {this.scroll(e);};
-  this.scroller.onscroll = (e) => {this.scroll(e);};
+  this.scroller.onmousewheel = (e) => {this.scroll(e)};
+  this.scroller.onscroll = (e) => {this.scroll(e)};
+
+  this.log("Created scroller with options:\n" + JSON.stringify(this.options, null, 2));
 
   this.didSnap = false;
 
@@ -92,6 +104,7 @@ function skrall(
 
   this.dispose = () => {
     clearInterval(this.snapInterval);
+    this.log("Disposed scroller successfully.");
   };
 }
 
