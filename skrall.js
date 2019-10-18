@@ -19,7 +19,7 @@ function skrall(
   if (!this.options.direction) {
     this.options.direction = "vertical";
   }
-  if (!this.options.snap) {
+  if (this.options.snap == null) {
     this.options.snap = true;
   }
   if (!this.options.environment) {
@@ -27,10 +27,16 @@ function skrall(
   }
 
   this.scroller = scroller;
-  this.scroller.onmousewheel = (e) => {this.scroll(e)};
-  this.scroller.onscroll = (e) => {this.scroll(e)};
+  this.scroller.onmousewheel = (e) => {
+    this.scroll(e);
+  };
+  this.scroller.onscroll = (e) => {
+    this.scroll(e);
+  };
 
-  this.log("Created scroller with options:\n" + JSON.stringify(this.options, null, 2));
+  this.log(
+    "Created scroller with options:\n" + JSON.stringify(this.options, null, 2)
+  );
 
   this.didSnap = false;
 
@@ -69,7 +75,7 @@ function skrall(
     if (!this.didSnap && this.options.snap) {
       this.didSnap = true;
       var scrollUnit =
-      this.scroller.scrollWidth / this.scroller.childElementCount;
+        this.scroller.scrollWidth / this.scroller.childElementCount;
       var scrollNumber = Math.round(this.scroller.scrollLeft / scrollUnit);
       this.scroller.scrollBy({
         top: this.getOffset(this.scroller.children[scrollNumber]).top,
