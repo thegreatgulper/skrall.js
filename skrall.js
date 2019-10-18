@@ -3,6 +3,7 @@ function skrall(
   options = {
     direction: "vertical",
     snap: true,
+    snapDelay: 500,
     environment: "production"
   }
 ) {
@@ -21,6 +22,9 @@ function skrall(
   }
   if (this.options.snap == null) {
     this.options.snap = true;
+  }
+  if (!this.options.snapDelay) {
+    this.options.snapDelay = 500;
   }
   if (!this.options.environment) {
     this.options.environment = "production";
@@ -47,7 +51,7 @@ function skrall(
   this.snapInterval = setInterval(() => {
     if (this.options.snap) {
       this.timeSinceScroll += 100;
-      if (this.timeSinceScroll > 500) {
+      if (this.timeSinceScroll > this.options.snapDelay) {
         this.timeSinceScroll = 0;
         this.snapScroll();
       }
