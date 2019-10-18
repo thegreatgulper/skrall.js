@@ -21,9 +21,9 @@
 
 ```
 var main = new skrall(<scroller>, {
-  direction: <string: "horizontal" or "vertical">,
-  snap: <boolean>,
-  snapDelay: <milliseconds>,
+  direction:   <string: "horizontal" or "vertical">,
+  snap:        <boolean>,
+  snapDelay:   <milliseconds>,
   environment: <string: "development" or "production">
 });
 ```
