@@ -19,6 +19,8 @@
 
 ## Usage
 
+### Adding it to your page.
+
 Host skrall.js locally.
 
 ```
@@ -30,6 +32,10 @@ Or pull it directly from my repo.
 ```
 <script type="text/javascript" src="https://skrall.kyza.net/skrall.min.js"></script>
 ```
+
+### Using it on your page.
+
+Create a new skrall.js instance for each scroller.
 
 ```
 var main = new skrall(<scroller>, {
