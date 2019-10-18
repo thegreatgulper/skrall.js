@@ -4,6 +4,11 @@
   <img src="https://img.shields.io/github/size/KyzaGitHub/skrall.js/skrall.min.js?label=Minified&style=flat-square">
   <img src="https://img.shields.io/static/v1?label=GZipped&message=~0.70kB&color=007ec6&style=flat-square">
 </p>
+<hr>
+<p align="center">
+  Scrolljacking is bad, but if you <i>really</i> need it, use this.
+</p>
+<hr>
 
 ## Usage
 
