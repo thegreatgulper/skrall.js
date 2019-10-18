@@ -7,9 +7,15 @@
 </p>
 <hr>
 <p align="center">
-  Scrolljacking is bad, but if you <i>really</i> need it, use this.
+  I milked, yes <i>milked</i>, a butterfly to give you the smoothest scrolljacking experience possible.
 </p>
 <hr>
+
+## Features
+
+- [x] Easy to set up and use.
+- [x] No bloat garbage.
+- [x] Automatic full page element snapping.
 
 ## Usage
 
