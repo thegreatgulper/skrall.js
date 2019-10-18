@@ -15,7 +15,7 @@
 
 - [x] Easy to set up and use.
 - [x] No bloat garbage.
-- [x] Automatic full page element snapping.
+- [x] Automatic full page element snapping (jank not included).
 
 ## Usage
 
