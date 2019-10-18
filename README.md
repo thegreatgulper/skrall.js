@@ -20,6 +20,10 @@
 ## Usage
 
 ```
+<script type="text/javascript" src="https://skrall.kyza.net/skrall.min.js"></script>
+```
+
+```
 var main = new skrall(<scroller>, {
   direction:   <string: "horizontal" or "vertical">,
   snap:        <boolean>,
