@@ -1,5 +1,5 @@
 function skrall(
-  scrollerQuery,
+  scroller,
   options = {
     direction: "vertical",
     snap: true
@@ -16,7 +16,7 @@ function skrall(
 
 
 
-  this.scroller = document.querySelector(scrollerQuery);
+  this.scroller = scroller;
   this.scroller.onmousewheel = (e) => {this.scroll(e);};
   this.scroller.onscroll = (e) => {this.scroll(e);};
 
