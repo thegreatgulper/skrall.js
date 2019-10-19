@@ -13,7 +13,7 @@
 
 ## Features
 
-- [x] <u>No jQuery.</u> I put this at the top for a reason.
+- [x] <u>No jQuery.</u> Yeah, you read that right.
 - [x] Easy to set up and use.
 - [x] No bloat garbage.
 - [x] Automatic full page element snapping (jank not included).
