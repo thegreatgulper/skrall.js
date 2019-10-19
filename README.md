@@ -13,7 +13,7 @@
 
 ## Features
 
-- [x] <u>No jQuery.</u> Yeah, you read that right.
+- [x] **No jQuery.** Yeah, you read that right.
 - [x] Easy to set up and use.
 - [x] No bloat garbage.
 - [x] Automatic full page element snapping (jank not included).
@@ -24,13 +24,13 @@
 
 Host skrall.js locally.
 
-```
+```html
 <script type="text/javascript" src="./js/skrall.min.js"></script>
 ```
 
 Or pull it directly from my repo.
 
-```
+```html
 <script type="text/javascript" src="https://skrall.kyza.net/skrall.min.js"></script>
 ```
 
@@ -38,7 +38,7 @@ Or pull it directly from my repo.
 
 Create a new skrall.js instance for each scroller.
 
-```
+```javascript
 var main = new skrall(<scroller>, {
   direction:   <string: "horizontal" or "vertical">,
   snap:        <boolean>,
