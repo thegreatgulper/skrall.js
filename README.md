@@ -44,7 +44,6 @@ var main = new skrall(<scroller>, {
   snap:           <boolean>,
   snapDelay:      <milliseconds>,
   jsSnapScroll:   <boolean>,
-  scrollFullPage: <boolean>,
-  environment:    <string: "development" or "production">
+  scrollFullPage: <boolean>
 });
 ```

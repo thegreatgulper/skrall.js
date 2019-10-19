@@ -5,17 +5,10 @@ function skrall(
     snap: true,
     snapDelay: 500,
     jsSnapScroll: true,
-    scrollFullPage: false,
-    environment: "production"
+    scrollFullPage: false
   }
 ) {
   this.version = "1.0.0";
-
-  this.log = (text) => {
-    if (this.options.environment == "development") {
-      console.log("[skrall.js v" + this.version + "]: " + text);
-    }
-  };
 
   this.options = options;
 
@@ -33,9 +26,7 @@ function skrall(
   }
   if (!this.options.scrollFullPage) {
     this.options.scrollFullPage = false;
-  }
-  if (!this.options.environment) {
-    this.options.environment = "production";
+  }s.options.environment = "production";
   }
 
   if (this.options.jsSnapScroll) {
@@ -72,10 +63,6 @@ function skrall(
     });
     observer.observe(this.scroller, { attributes: true });
   }
-
-  this.log(
-    "Created scroller with options:\n" + JSON.stringify(this.options, null, 2)
-  );
 
   this.didSnap = false;
 
@@ -214,7 +201,6 @@ function skrall(
 
   this.dispose = () => {
     clearInterval(this.snapInterval);
-    this.log("Disposed scroller successfully.");
   };
 }
 
