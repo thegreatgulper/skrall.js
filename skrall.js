@@ -8,6 +8,8 @@ function skrall(
     scrollFullPage: false
   }
 ) {
+  console.log();
+  
   this.version = "1.0.0";
 
   this.options = options;
@@ -26,7 +28,6 @@ function skrall(
   }
   if (!this.options.scrollFullPage) {
     this.options.scrollFullPage = false;
-  }s.options.environment = "production";
   }
 
   if (this.options.jsSnapScroll) {
