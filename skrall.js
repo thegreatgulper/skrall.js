@@ -63,7 +63,8 @@ function skrall(
       document.head.appendChild(css);
     }
     this.scroller.className += " skrall-css-snap";
-    var observer = new MutationObserver((mutationsList) => {
+    this.scroller.className = this.scroller.className.trim();
+    var observer = new MutationObserver(() => {
       if (this.scroller.className.indexOf("skrall-css-snap") < 0) {
         this.scroller.className += " skrall-css-snap";
         this.scroller.className = this.scroller.className.trim();
@@ -103,8 +104,6 @@ function skrall(
     // Scroll the scroller only if the user didn't scroll on a vanilla scroller.
     for (let i = 0; i < e.path.length; i++) {
       if (e.path[i] == this.scroller) {
-        // Only prevent default scrolling if needed.
-        // This doesn't interfere with other scrollable elements.
         e.preventDefault();
 
         if (this.options.direction == "horizontal") {
@@ -128,6 +127,9 @@ function skrall(
         // The element is not the scroller.
         // Check if the element can be scrolled on.
         if (e.path[i].scrollHeight > e.path[i].offsetHeight) {
+          // If it can be scrolled on,
+          // return now and don't let the main scroller
+          // scroll or prevent the default event.
           return;
         }
       }
