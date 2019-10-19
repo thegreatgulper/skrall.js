@@ -43,14 +43,7 @@ function skrall(
     if (!document.querySelector("#skrall-css")) {
       var css = document.createElement("style");
       css.id = "skrall-css";
-      css.innerHTML = `
-.skrall-css-snap {
-  scroll-snap-type: both mandatory;
-}
-.skrall-css-snap > * {
-  scroll-snap-align: start;
-}
-`.trim();
+      css.innerHTML = `.skrall-css-snap {scroll-snap-type: both mandatory;}.skrall-css-snap > * {scroll-snap-align: start;}`.trim();
       document.head.appendChild(css);
     }
     this.scroller.className += " skrall-css-snap";
@@ -106,6 +99,21 @@ function skrall(
             this.timeSinceScroll = 0;
             this.scroller.scrollBy({
               left: -e.wheelDelta
+            });
+          }
+        } else {
+          if (this.options.scrollFullPage && !mouseWheel) {
+            this.timeSinceScroll = -1000;
+            this.scroller.scrollBy({
+              top:
+                e.wheelDelta > 0
+                  ? this.scrollToNumber(this.currentSnappedElement - 1)
+                  : this.scrollToNumber(this.currentSnappedElement + 1)
+            });
+          } else {
+            this.timeSinceScroll = 0;
+            this.scroller.scrollBy({
+              top: -e.wheelDelta
             });
           }
         }
