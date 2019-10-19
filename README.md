@@ -40,9 +40,11 @@ Create a new skrall.js instance for each scroller.
 
 ```javascript
 var main = new skrall(<scroller>, {
-  direction:   <string: "horizontal" or "vertical">,
-  snap:        <boolean>,
-  snapDelay:   <milliseconds>,
-  environment: <string: "development" or "production">
+  direction:      <string: "horizontal" or "vertical">,
+  snap:           <boolean>,
+  snapDelay:      <milliseconds>,
+  jsSnapScroll:   <boolean>,
+  scrollFullPage: <boolean>,
+  environment:    <string: "development" or "production">
 });
 ```

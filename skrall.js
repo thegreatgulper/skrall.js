@@ -4,6 +4,8 @@ function skrall(
     direction: "vertical",
     snap: true,
     snapDelay: 500,
+    jsSnapScroll: true,
+    scrollFullPage: false,
     environment: "production"
   }
 ) {
@@ -26,17 +28,49 @@ function skrall(
   if (!this.options.snapDelay) {
     this.options.snapDelay = 500;
   }
+  if (!this.options.jsSnapScroll) {
+    this.options.jsSnapScroll = true;
+  }
+  if (!this.options.scrollFullPage) {
+    this.options.scrollFullPage = false;
+  }
   if (!this.options.environment) {
     this.options.environment = "production";
   }
 
-  this.scroller = scroller;
-  this.scroller.onmousewheel = (e) => {
-    this.scroll(e);
-  };
-  this.scroller.onscroll = (e) => {
-    this.scroll(e);
-  };
+  if (this.options.jsSnapScroll) {
+    this.scroller = scroller;
+    this.scroller.onmousewheel = (e) => {
+      this.scroll(e, false);
+    };
+    this.scroller.onscroll = (e) => {
+      this.scroll(e, true);
+    };
+  }
+
+  if (this.options.snap && !this.options.jsSnapScroll) {
+    if (!document.querySelector("#skrall-css")) {
+      var css = document.createElement("style");
+      css.id = "skrall-css";
+      css.innerHTML = `
+.skrall-css-snap {
+  scroll-snap-type: both mandatory;
+}
+.skrall-css-snap > * {
+  scroll-snap-align: start;
+}
+`.trim();
+      document.head.appendChild(css);
+    }
+    this.scroller.className += " skrall-css-snap";
+    var observer = new MutationObserver((mutationsList) => {
+      if (this.scroller.className.indexOf("skrall-css-snap") < 0) {
+        this.scroller.className += " skrall-css-snap";
+        this.scroller.className = this.scroller.className.trim();
+      }
+    });
+    observer.observe(this.scroller, { attributes: true });
+  }
 
   this.log(
     "Created scroller with options:\n" + JSON.stringify(this.options, null, 2)
@@ -48,45 +82,107 @@ function skrall(
 
   this.timeSinceScroll = 0;
 
+  this.currentSnappedElement = 0;
+
   this.snapInterval = setInterval(() => {
-    if (this.options.snap) {
+    if (this.options.snap && this.options.jsSnapScroll) {
       this.timeSinceScroll += 100;
       if (this.timeSinceScroll > this.options.snapDelay) {
         this.timeSinceScroll = 0;
-        this.snapScroll();
+        if (!this.didSnap) {
+          this.didSnap = true;
+          this.snapScroll();
+        }
       }
     }
   }, 100);
 
-  this.scroll = (e) => {
+  this.scroll = (e, mouseWheel) => {
     this.didSnap = false;
 
-    // Scroll the deepest scrollable element only.
+    // Scroll the scroller only if the user didn't scroll on a vanilla scroller.
     for (let i = 0; i < e.path.length; i++) {
       if (e.path[i] == this.scroller) {
-        this.timeSinceScroll = 0;
+        // Only prevent default scrolling if needed.
+        // This doesn't interfere with other scrollable elements.
+        e.preventDefault();
+
         if (this.options.direction == "horizontal") {
-          this.scroller.scrollBy({
-            left: -e.wheelDelta
-          });
+          if (this.options.scrollFullPage && !mouseWheel) {
+            this.timeSinceScroll = -1000;
+            this.scroller.scrollBy({
+              left:
+                e.wheelDelta > 0
+                  ? this.scrollToNumber(this.currentSnappedElement - 1)
+                  : this.scrollToNumber(this.currentSnappedElement + 1)
+            });
+          } else {
+            this.timeSinceScroll = 0;
+            this.scroller.scrollBy({
+              left: -e.wheelDelta
+            });
+          }
         }
         return;
+      } else {
+        // The element is not the scroller.
+        // Check if the element can be scrolled on.
+        if (e.path[i].scrollHeight > e.path[i].offsetHeight) {
+          return;
+        }
       }
     }
   };
 
   this.snapScroll = () => {
-    if (!this.didSnap && this.options.snap) {
-      this.didSnap = true;
-      var scrollUnit =
-        this.scroller.scrollWidth / this.scroller.childElementCount;
-      var scrollNumber = Math.round(this.scroller.scrollLeft / scrollUnit);
+    var scrollUnit =
+      this.scroller.scrollWidth / this.scroller.childElementCount;
+    var scrollNumber = Math.round(this.scroller.scrollLeft / scrollUnit);
+    this.scroller.scrollBy({
+      top: this.getOffset(this.scroller.children[scrollNumber]).top,
+      left: this.getOffset(this.scroller.children[scrollNumber]).left,
+      behavior: "smooth"
+    });
+
+    this.currentSnappedElement = scrollNumber;
+  };
+
+  this.scrollNext = () => {
+    var scrollUnit =
+      this.scroller.scrollWidth / this.scroller.childElementCount;
+    var scrollNumber = Math.round(this.scroller.scrollLeft / scrollUnit) + 1;
+    this.scroller.scrollBy({
+      top: this.getOffset(this.scroller.children[scrollNumber]).top,
+      left: this.getOffset(this.scroller.children[scrollNumber]).left,
+      behavior: "smooth"
+    });
+
+    this.currentSnappedElement = scrollNumber;
+  };
+
+  this.scrollPrevious = () => {
+    var scrollUnit =
+      this.scroller.scrollWidth / this.scroller.childElementCount;
+    var scrollNumber = Math.round(this.scroller.scrollLeft / scrollUnit) - 1;
+    this.scroller.scrollBy({
+      top: this.getOffset(this.scroller.children[scrollNumber]).top,
+      left: this.getOffset(this.scroller.children[scrollNumber]).left,
+      behavior: "smooth"
+    });
+
+    this.currentSnappedElement = scrollNumber;
+  };
+
+  this.scrollToNumber = (scrollNumber) => {
+    try {
       this.scroller.scrollBy({
         top: this.getOffset(this.scroller.children[scrollNumber]).top,
         left: this.getOffset(this.scroller.children[scrollNumber]).left,
         behavior: "smooth"
       });
-    }
+
+      this.currentSnappedElement = scrollNumber;
+    } catch (e) {}
   };
 
   this.getOffset = (element) => {
@@ -105,11 +201,13 @@ function skrall(
   };
 
   this.scrollToElement = (scrollElement, element) => {
-    scrollElement.scrollBy({
-      top: this.getOffset(element).top,
-      left: this.getOffset(element).left,
-      behavior: "smooth"
-    });
+    try {
+      scrollElement.scrollBy({
+        top: this.getOffset(element).top,
+        left: this.getOffset(element).left,
+        behavior: "smooth"
+      });
+    } catch (e) {}
   };
 
   this.dispose = () => {
