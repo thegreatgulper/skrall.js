@@ -11,6 +11,12 @@
 </p>
 <hr>
 
+## About
+
+skrall.js is a simple, extremely lightweight scrolljacking library made for both vertical and horizontal fullpage/onepage websites.
+
+It handles everything you need without handling too much.
+
 ## Features
 
 - [x] **No jQuery.** Yeah, you read that right.
@@ -39,7 +45,7 @@ Or pull it directly from my repo.
 Create a new skrall.js instance for each scroller.
 
 ```javascript
-var main = new skrall(<scroller>, {
+var main = new skrall(<scrollerElement>, {
   direction:      <string: "horizontal" or "vertical">,
   snap:           <boolean>,
   snapDelay:      <milliseconds>,
