@@ -8,7 +8,7 @@ function skrall(
     scrollFullPage: false
   }
 ) {
-  this.version = "1.0.0";
+  this.version = "1.0.1";
 
   this.options = options;
 
@@ -54,6 +54,11 @@ function skrall(
       }
     });
     observer.observe(this.scroller, { attributes: true });
+  } else {
+    var resizeObserver = new ResizeObserver((entries) => {
+      this.scrollToCurrent();
+    });
+    resizeObserver.observe(this.scroller);
   }
 
   this.didSnap = false;
@@ -83,7 +88,9 @@ function skrall(
     // Scroll the scroller only if the user didn't scroll on a vanilla scroller.
     for (let i = 0; i < e.path.length; i++) {
       if (e.path[i] == this.scroller) {
-        e.preventDefault();
+        try {
+          e.preventDefault();
+        } catch (e) {}
 
         if (this.options.direction == "horizontal") {
           if (this.options.scrollFullPage && !mouseWheel) {
@@ -178,6 +185,19 @@ function skrall(
       });
 
       this.currentSnappedElement = scrollNumber;
+    } catch (e) {}
+  };
+
+  this.scrollToCurrent = () => {
+    console.log(this.currentSnappedElement);
+    try {
+      let scrollNumber = this.currentSnappedElement;
+
+      this.scroller.scrollBy({
+        top: this.getOffset(this.scroller.children[scrollNumber]).top,
+        left: this.getOffset(this.scroller.children[scrollNumber]).left,
+        behavior: "smooth"
+      });
     } catch (e) {}
   };
 
