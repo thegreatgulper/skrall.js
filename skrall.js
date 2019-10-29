@@ -8,7 +8,7 @@ function skrall(
     scrollFullPage: false
   }
 ) {
-  this.version = "1.0.1";
+  this.version = "1.0.3";
 
   this.options = options;
 
@@ -56,7 +56,7 @@ function skrall(
     observer.observe(this.scroller, { attributes: true });
   } else {
     var resizeObserver = new ResizeObserver((entries) => {
-      this.scrollToCurrent();
+      this.scrollToCurrent(true);
     });
     resizeObserver.observe(this.scroller);
   }
@@ -188,7 +188,7 @@ function skrall(
     } catch (e) {}
   };
 
-  this.scrollToCurrent = () => {
+  this.scrollToCurrent = (instant) => {
     console.log(this.currentSnappedElement);
     try {
       let scrollNumber = this.currentSnappedElement;
@@ -196,7 +196,7 @@ function skrall(
       this.scroller.scrollBy({
         top: this.getOffset(this.scroller.children[scrollNumber]).top,
         left: this.getOffset(this.scroller.children[scrollNumber]).left,
-        behavior: "smooth"
+        behavior: instant ? "auto" : "smooth"
       });
     } catch (e) {}
   };
@@ -223,6 +223,8 @@ function skrall(
         left: this.getOffset(element).left,
         behavior: "smooth"
       });
+
+      this.currentSnappedElement = this.scroller.children.indexOf(element);
     } catch (e) {}
   };
 
