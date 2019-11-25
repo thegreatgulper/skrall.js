@@ -42,7 +42,7 @@ Host skrall.js locally.
 <script type="text/javascript" src="./js/skrall.min.js"></script>
 ```
 
-Or pull it directly from my repo.
+Or pull it directly from my repo. Only the latest version is pushed to the main branch.
 
 ```html
 <script type="text/javascript" src="https://skrall.kyza.net/skrall.min.js"></script>
